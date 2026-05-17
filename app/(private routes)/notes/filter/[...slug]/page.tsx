@@ -1,9 +1,9 @@
 // app/notes/filter/[...slug]/page.tsx
 
-import { fetchNotes } from '@/lib/api';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import NotesByCategoryClient from './Notes.client';
 import { Metadata } from 'next';
+import { fetchNotes } from '@/lib/api/clientApi';
 
 // /notes виконується Notes на сервері
 // виконується queryClient.prefetchQuery
