@@ -5,19 +5,23 @@ import css from './SignInPage.module.css';
 import { useState } from 'react';
 import { ApiError } from '@/app/api/api';
 import { login, RegisterRequest } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function SignIn() {
   const router = useRouter();
   const [error, setError] = useState('');
+  const setUser = useAuthStore(state => state.setUser);
+
   const handleSubmit = async (formData: FormData) => {
     try {
       // Типізуємо дані форми
       const formValues = Object.fromEntries(formData) as RegisterRequest;
       // Виконуємо запит
-      const res = await login(formValues);
-      console.log(res);
+      const user = await login(formValues);
+      console.log(user);
       // Виконуємо редірект або відображаємо помилку
-      if (res) {
+      if (user) {
+        setUser(user);
         router.push('/profile');
       } else {
         setError('Invalid email or password');
