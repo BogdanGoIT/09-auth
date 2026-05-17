@@ -2,10 +2,6 @@ import { User } from '@/types/user';
 import type { CreateNoteProps, Note } from '../../types/note';
 import { nextServer } from './api';
 
-// const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-
-// console.log(token);
-
 export interface NotesResponse {
   notes: Note[];
   totalPages?: number;
@@ -19,9 +15,6 @@ export async function fetchNotes(page: number = 1, search?: string, tag?: string
       search,
       tag,
     },
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
   });
   return res.data;
 }
@@ -29,11 +22,7 @@ export async function fetchNotes(page: number = 1, search?: string, tag?: string
 // POST /notes {}
 
 export async function createNote(newNote: CreateNoteProps) {
-  const res = await nextServer.post<Note>('/notes', newNote, {
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  });
+  const res = await nextServer.post<Note>('/notes', newNote);
 
   return res.data;
 }
@@ -41,21 +30,13 @@ export async function createNote(newNote: CreateNoteProps) {
 // DELETE /notes/{id}
 
 export async function deleteNote(noteId: string) {
-  const res = await nextServer.delete<Note>(`/notes/${noteId}`, {
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  });
+  const res = await nextServer.delete<Note>(`/notes/${noteId}`);
 
   return res.data;
 }
 
 export async function fetchNoteById(id: string) {
-  const res = await nextServer.get<Note>(`/notes/${id}`, {
-    // headers: {
-    //   Authorization: `Bearer ${token}`,
-    // },
-  });
+  const res = await nextServer.get<Note>(`/notes/${id}`);
 
   return res.data;
 }
@@ -76,5 +57,10 @@ export type RegisterRequest = {
 
 export const register = async (data: RegisterRequest) => {
   const res = await nextServer.post<User>('/auth/register', data);
+  return res.data;
+};
+
+export const login = async (data: RegisterRequest) => {
+  const res = await nextServer.post<User>('/auth/login', data);
   return res.data;
 };
