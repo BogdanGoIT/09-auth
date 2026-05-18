@@ -8,11 +8,12 @@ import css from './NoteForm.module.css';
 // namespace import
 // import * as Yup from 'yup';
 import type { NoteTag } from '../../types/note';
-import { createNote } from '@/lib/api';
+
 import { useRouter } from 'next/navigation';
 
 // 1. Імпортуємо хук
 import { useNoteStore } from '@/lib/store/noteStore';
+import { createNote } from '@/lib/api/clientApi';
 
 // interface NoteFormProps {
 //   onEnd: () => void;

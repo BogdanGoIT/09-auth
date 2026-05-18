@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import css from './ProfilePage.module.css';
 
 export default function Profile() {
@@ -12,7 +12,7 @@ export default function Profile() {
           </a>
         </div>
         <div className={css.avatarWrapper}>
-          <Image src="Avatar" alt="User Avatar" width={120} height={120} className={css.avatar} />
+          {/* <Image src="Avatar" alt="User Avatar" width={120} height={120} className={css.avatar} /> */}
         </div>
         <div className={css.profileInfo}>
           <p>Username: your_username</p>
