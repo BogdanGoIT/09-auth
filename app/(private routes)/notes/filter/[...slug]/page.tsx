@@ -18,10 +18,13 @@ type Props = {
 };
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const { slug } = await params;
+  const resolvedParams = await params;
 
+  // Перевіряємо, чи існує slug і чи є він масивом, інакше повертаємо порожній масив
+  const slug = resolvedParams?.slug || [];
+
+  // Безпечно дістаємо перший елемент через Optional Chaining або дефолтне значення
   const category = slug[0] === 'all' ? undefined : slug[0];
-
   const filterLabel = category || 'all';
 
   const title = `${filterLabel} | NoteHub`;
