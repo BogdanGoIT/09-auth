@@ -64,3 +64,22 @@ export const login = async (data: RegisterRequest) => {
   const res = await nextServer.post<User>('/auth/login', data);
   return res.data;
 };
+
+type CheckSessionRequest = {
+  success: boolean;
+};
+
+// browser > nextServer > beckend
+export const checkSession = async () => {
+  const res = await nextServer.get<CheckSessionRequest>('/auth/session');
+  return res.data.success;
+};
+
+export const getMe = async () => {
+  const { data } = await nextServer.get<User>('/users/me');
+  return data;
+};
+
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout');
+};
