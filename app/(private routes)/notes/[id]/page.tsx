@@ -1,7 +1,8 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import NoteDetailsClient from './NoteDetails.client';
 import { Metadata } from 'next';
-import { fetchNoteById } from '@/lib/api/clientApi';
+// import { fetchNoteById } from '@/lib/api/clientApi';
+import { fetchServerNoteById } from '@/lib/api/serverApi';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -10,7 +11,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const note = await fetchNoteById(id);
+  const note = await fetchServerNoteById(id);
 
   // Читаємо адресу з .env або беремо localhost
   const baseUrl = process.env.OG_NOTES_URL || 'http://localhost:3000';
@@ -39,7 +40,7 @@ export default async function NotesDetail(props: Props) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id),
+    queryFn: () => fetchServerNoteById(id),
   });
 
   return (

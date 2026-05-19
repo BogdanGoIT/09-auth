@@ -83,3 +83,12 @@ export const getMe = async () => {
 export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
+
+export type UpdateUserRequest = {
+  username?: string;
+};
+
+export const updateMe = async (payload: UpdateUserRequest) => {
+  const res = await nextServer.patch<User>('/users/me', payload);
+  return res.data;
+};
