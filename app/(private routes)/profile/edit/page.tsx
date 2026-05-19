@@ -5,8 +5,11 @@ import css from './EditProfilePage.module.css';
 import { getMe, updateMe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function EditProfile() {
+  const setUser = useAuthStore(state => state.setUser);
+
   const router = useRouter();
 
   const [username, setUserName] = useState('');
@@ -29,7 +32,22 @@ export default function EditProfile() {
   const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await updateMe({ username });
+      // 1. Оновлюємо ім'я на сервері
+      const updatedUser = await updateMe({ username });
+      // 2. Оновлюємо глобальне сховище Zustand
+      if (updatedUser) {
+        // Якщо бекенд повертає оновленого користувача у відповідь
+        setUser(updatedUser);
+      } else {
+        // Якщо бекенд не повертає об'єкт, збираємо його власноруч із новим username
+        setUser({
+          username,
+          avatar,
+          email,
+        });
+      }
+      // 3. Освіжаємо серверні компоненти Next.js та робимо редірект
+      router.refresh();
       router.push('/profile');
     } catch (error) {
       console.error('Failed to update profile:', error);
